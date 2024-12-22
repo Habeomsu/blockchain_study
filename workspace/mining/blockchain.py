@@ -2,6 +2,7 @@ import time
 
 from mining import db
 from mining.models import Block
+from mining.utils import blockchain_utils
 
 class BlockChain:
     '''블록체인 클래스'''
@@ -19,7 +20,7 @@ class BlockChain:
             return False
     
         genesis_block = Block(
-            prev_hash = {},
+            prev_hash = blockchain_utils.hash({}),
             nonce = 0,
             timestamp = time.time()
         )
