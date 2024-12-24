@@ -15,7 +15,7 @@ class BlockChain:
         if block_exist:
             print({
                 'status' : 'Fail to create Block',
-                'error' : 'Block(s) aready exist'
+                'error' : 'Block(s) already exist'
             })
             return False
     
