@@ -1,8 +1,10 @@
 from flask import (
     Blueprint,
     jsonify,
+    request,
 )
 from mining.utils.blockchain_utils import get_blockchain
+from mining.transfer import Transfer
 
 bp = Blueprint('main', __name__, url_prefix='/')
 
@@ -20,3 +22,30 @@ def get_chain():
     }
     
     return jsonify(response), 200
+
+@bp.route('/transactions/', method=['GET','POST'])
+def transactions():
+    '''Transaction.transaction_pool 정보를 읽어서 리턴'''
+    if request.method == 'GET':
+        block_chain = get_blockchain()
+        print('Transaction 정보 제공')
+        resp = {
+            'transactions': block_chain.get('transaction_pool'),
+            'length':len(block_chain.get('transaction_pool'))
+        }
+        return jsonify(resp), 200
+
+    if request.method == 'POST':
+        '''transaction 추가'''
+        print('블록체인 노드: transaction 추가')
+        request_json = request.json
+        transfer = Transfer(
+            send_blockchain_addr = request_json.get('send_blockchain_addr'),
+            recv_blockchain_addr = request_json.get('recv_blockchain_addr'),
+            amount = request_json.get('amount')
+        )
+        is_transacted = transfer.add_transaction()
+        
+        if not is_transacted:
+            return jsonify({'status': 'fail'}), 400
+        return jsonify({'status': 'success'}), 201 
