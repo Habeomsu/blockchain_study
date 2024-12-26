@@ -65,6 +65,7 @@ def get_transaction_list(block: Block) -> list:
                 'amount': transaction.amount,
             }
         )
+    return transaction_list
     
 def hash(block: dict) -> str:
     sorted_block = json.dumps(block,sort_keys=True)

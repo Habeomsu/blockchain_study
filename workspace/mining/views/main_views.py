@@ -2,6 +2,7 @@ from flask import (
     Blueprint,
     jsonify,
     request,
+    render_template,
 )
 from mining.utils.blockchain_utils import get_blockchain
 from mining.transfer import Transfer
@@ -11,7 +12,9 @@ bp = Blueprint('main', __name__, url_prefix='/')
 @bp.route('/', methods=['GET'])
 def home():
     '''Mining 메인화면'''
-    return 'hello world'
+    return render_template(
+        'index.html'
+    )
 
 
 @bp.route('/get_chain/',methods=['GET'])
@@ -23,7 +26,7 @@ def get_chain():
     
     return jsonify(response), 200
 
-@bp.route('/transactions/', method=['GET','POST'])
+@bp.route('/transactions/', methods=['GET','POST'])
 def transactions():
     '''Transaction.transaction_pool 정보를 읽어서 리턴'''
     if request.method == 'GET':

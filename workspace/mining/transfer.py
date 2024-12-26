@@ -18,7 +18,7 @@ class Transfer:
         self.amount = amount
         # self.signature = signature
         self.block_id = Block.query.filter(
-        Block.timestamp).order_by(Block.timestamp.desc()).first()
+        Block.timestamp).order_by(Block.timestamp.desc()).first().id
 
     def commit_transaction(self) -> None:
         '''Commit transaction into DB'''
