@@ -4,6 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 from mining import config
 
+
 migrate = Migrate()
 db = SQLAlchemy()
 

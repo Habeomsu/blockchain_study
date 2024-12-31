@@ -3,6 +3,8 @@ venv/
 
 # secret 파일
 minig/secret.py
+wallet_server/wallet/secret.py
 
 # db
 minig/blockchain.db
+
