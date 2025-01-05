@@ -7,4 +7,5 @@ wallet_server/wallet/secret.py
 
 # db
 minig/blockchain.db
+wallet_server/wallet/wallet.db
 
