@@ -11,6 +11,7 @@ from flask import (
     url_for,
 
 )
+from flask_login import login_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from wallet.models import User
 from wallet import login_manager
@@ -66,6 +67,8 @@ def login():
         session['user_id'] = user.user_id
         session['user_key'] = user.id
 
+        login_user(user)
+
         return redirect(
             url_for('main.home',login='success')
         )
@@ -80,7 +83,7 @@ def login():
 def logout():
     '''User 로그아웃'''
     session.clear()
-    return '어디론가 보냄.'
+    return redirect(url_for('main.home'))
 
 @bp.route('/sign_up/',methods=['GET','POST'])
 def sign_up():
