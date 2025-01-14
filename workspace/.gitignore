@@ -2,10 +2,10 @@
 venv/
 
 # secret 파일
-minig/secret.py
+blockchain_node/minig/secret.py
 wallet_server/wallet/secret.py
 
 # db
-minig/blockchain.db
+blockchain_node/minig/blockchain.db
 wallet_server/wallet/wallet.db
 
