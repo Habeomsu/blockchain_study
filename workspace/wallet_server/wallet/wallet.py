@@ -2,7 +2,10 @@
 import hashlib
 import codecs
 import base58
+
 from ecdsa import NIST256p, SigningKey
+
+from workspace.wallet_server.wallet.utils import dict_utils
 
 
 class Wallet:
@@ -68,9 +71,36 @@ class Wallet:
 
     def generate_signature(
             self,
+            send_blockchain_addr: str,
+            recv_blockchain_addr: str,
+            send_private_key: str,
+            amount: float
     ) -> str:
         '''거래에 필요한 signature생성'''
+        sha256 = hashlib.sha256()
+        transaction = dict_utils.sorted_dict_by_key(
+            {
+            'send_blockchain_addr' : send_blockchain_addr,
+            'recv_blockchain_addr' : recv_blockchain_addr,
+            'amount' : float(amount),
+            }
+        )
+        sha256.update(str(transaction).encode('utf-8'))
+        message = sha256.digest()
+        private_key = SigningKey.from_string(
+            bytes().fromhex(send_private_key),
+            curve=NIST256p
+        )
+        # 거래 내역(transaction message)를 private key로 서명
+        private_key_sign = private_key.sign(message)
+        signature = private_key_sign.hex()
+
+        return signature
 
     def calculate_total_amount(self,) -> float:
-         '''blockchain_addr에 해당하는 계좌 총액을 리턴'''
+         '''blockchain_addr에 해당하는 계좌 총액을 리턴
+         ---> Blockchain node에 요청하여 값을 얻어오는 것으로 구현
+              Wallet 서버에서 Javascript로 구현 
+         '''
+         
 
