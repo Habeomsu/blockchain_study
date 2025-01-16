@@ -5,7 +5,7 @@ import base58
 
 from ecdsa import NIST256p, SigningKey
 
-from workspace.wallet_server.wallet.utils import dict_utils
+from wallet.utils import dict_utils
 
 
 class Wallet:

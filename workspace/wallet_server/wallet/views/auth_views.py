@@ -18,6 +18,7 @@ from wallet import login_manager
 from wallet.forms import SignUpForm,LoginForm
 from wallet import db
 from wallet.utils.passwd_utils import check_passwd_strength
+from wallet.wallet import Wallet
 
 bp = Blueprint('auth', __name__, url_prefix='/')
 
@@ -116,7 +117,7 @@ def sign_up():
                 'sign_up.html',form=form
             )
         
-        # wallet = Wallet()
+        wallet = Wallet()
 
         user = User(
             user_id = user_id,
@@ -126,9 +127,9 @@ def sign_up():
             name = data_dic.get('name'),
             create_date = datetime.now(),
             update_date = datetime.now(),
-            private_key = 'temp_private_key',
-            public_key = 'temp_public_key',
-            blockchain_addr = 'temp_blockchain_addr',
+            private_key = wallet.private_key,
+            public_key = wallet.public_key,
+            blockchain_addr = wallet.blockchain_address,
         )
         db.session.add(user)
         db.session.commit()
